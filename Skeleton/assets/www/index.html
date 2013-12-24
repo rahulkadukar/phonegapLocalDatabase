@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+  	<title>Wordlist</title>
+    <link rel="stylesheet" href="CSS/index.css" type="text/css" />
+	<script type="text/javascript" charset="utf-8" src="cordova-2.5.0.js"></script>
+	<script type="text/javascript" src="JavaScript/jquery.js"></script>
+	<script type="text/javascript" src="JavaScript/SQLitePlugin.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+    	var wordData = [];
+    	var number;
+    	var oTable;
+    	var totalLength;
+    	var fullLength;
+    	var currentWord;
+    	var db;
+    	
+	    document.addEventListener("deviceready", onDeviceReady, false);
+	    
+	    function onDeviceReady(){
+			db = window.sqlitePlugin.openDatabase({name:"steam"});
+			db.transaction(function(tx){
+				tx.executeSql("select * from test;", [], function(tx, res){
+					for (var i=0; i<res.rows.length; i++){
+	            		alert(res.rows.item(i).name);
+					}
+				},function(e){
+					console.log("ERROR: " + e.message);
+				});
+			});
+			document.addEventListener("backbutton", backButton, false);   
+		}
+		
+		function backButton(){
+			if ($("#mainMenu").css('display') == 'none')
+				navigator.app.exitApp();
+			
+			$("#mainMenu").hide();			
+		}
+	});
+	</script>  
+  </head>
+  <body>
+	<div id="wrapper">
+		<div id="header" class="mainBlocks blackTheme">Wordlist</div>
+		<div id="mainMenu" class="button blueTheme" style="display:none">Main Menu</div>
+		<div id="footer" class="mainBlocks blackTheme">&copy; Rahul Kadukar</div>
+	</div>
+  </body>
+</html>
